@@ -583,8 +583,32 @@ const BLOQUES=[
 ];
 const TL_SEPS={despertar:'Mañana',trabajo:'Trabajo · 9:00 → 15:00',vuelta:'Tarde en casa',cena:'Noche'};
 
-const RUTINAS={
-  f:{t:'Fuerza en casa · 45 min',s:'Circuito de cuerpo entero · Lun / Mié / Vie',c:[
+// Progresión de 4 semanas — detecta automáticamente en qué semana estás
+const RUTINAS_F=[
+  // SEMANA 1 — Reinicio con dignidad (25-30 min)
+  {t:'Reinicio con dignidad · 25 min',s:'Semana 1 · Activar todo sin morir en el intento 💪',objetivo:'Activar el cuerpo, sentir el músculo, NO morir.',reglas:['Terminá con energía, no destruido','Si algo duele raro → frenás','Mañana deberías estar medio duro, no quebrado'],c:[
+    {n:'☀️ Entrada en calor · 5-7 min',e:['Movilidad de brazos y hombros — 1 min','Movilidad de cadera — 1 min','20 jumping jacks','10 sentadillas suaves']},
+    {n:'💪 Bloque principal · 3 vueltas (1-2 min descanso entre vueltas)',e:['Sentadillas — 12 reps','Flexiones (podés apoyar rodillas) — 8 a 12','Remo casero (mochila con peso o botellas) — 10 a 12','Plancha — 20 a 30 segundos','Puente de glúteo — 12 a 15 reps']},
+    {n:'⚡ Final opcional (si te sentís bien)',e:['5-10 min de bici tranqui o caminata ligera']},
+    {n:'🌬️ Estiramiento · 5 min',e:['Isquiotibiales — 30s c/lado','Cuádriceps de pie — 30s c/lado','Apertura de pecho — 1 min','Respiración profunda — 2 min']},
+  ]},
+  // SEMANA 2 — Subimos un poco (30-35 min)
+  {t:'Construyendo base · 30 min',s:'Semana 2 · Un escalón más, sin apuro',objetivo:'Agregar un poco más de volumen. El cuerpo ya se acordó de moverse.',reglas:['4 vueltas en vez de 3 si te sentís bien','Controlá el ritmo, nada de apuro','Si algo duele raro → frenás'],c:[
+    {n:'☀️ Entrada en calor · 5 min',e:['Movilidad completa articular — 2 min','30 jumping jacks','15 sentadillas sin peso']},
+    {n:'💪 Bloque principal · 3-4 vueltas (90s descanso)',e:['Sentadillas — 15 reps','Flexiones completas (o rodillas) — 10 a 12','Remo casero — 12 reps','Plancha — 30 segundos','Puente de glúteo con pausa arriba — 12 reps','Estocadas alternadas — 10 c/lado']},
+    {n:'🔥 Cardio suave · 5 min',e:['Trote suave en el lugar o saltos de soga tranqui']},
+    {n:'🌬️ Estiramiento · 5 min',e:['Isquiotibiales — 30s c/lado','Flexores de cadera — 30s c/lado','Espalda baja en el piso — 1 min','Savasana — 2 min']},
+  ]},
+  // SEMANA 3 — Potenciando (35-40 min)
+  {t:'Potenciando el motor · 35 min',s:'Semana 3 · Ya estás en ritmo, ahora a construir',objetivo:'Más intensidad, más volumen. El cuerpo responde.',reglas:['4 vueltas completas','60-90s descanso entre vueltas','Empezás a sentir que podés más — bien'],c:[
+    {n:'☀️ Entrada en calor · 5-7 min',e:['Movilidad dinámica completa — 2 min','30 jumping jacks','20 sentadillas','10 flexiones suaves']},
+    {n:'💪 Bloque A — Upper body · 4 vueltas (60s descanso)',e:['Flexiones completas — 12','Remo casero — 12 reps','Superman — 15 reps','Plancha — 40 segundos']},
+    {n:'🦵 Bloque B — Lower body · 4 vueltas (60s descanso)',e:['Sentadillas — 15 reps','Estocadas alternadas — 12 c/lado','Puente de glúteo con pausa — 15 reps','Sentadilla sumo — 12 reps']},
+    {n:'🔥 Cardio · 5 min',e:['Burpees suaves: 20s trabajo / 40s descanso × 5']},
+    {n:'🌬️ Enfriamiento · 5 min',e:['Estiramientos completos, enfocate en lo que más sentís']},
+  ]},
+  // SEMANA 4+ — Rutina completa
+  {t:'Fuerza en casa · 45 min',s:'Semana 4+ · Rutina completa, ya estás listo',objetivo:'Cuerpo entero, intensidad real. Llegaste.',reglas:['Ritmo sostenido','45s trabajo / 15s transición','Tomá agua entre bloques'],c:[
     {n:'☀️ Calentamiento · 5 min',e:['Trote en el lugar — 2 min','Rotación de cadera y hombros — 1 min','Movilidad articular — 1 min','Sentadillas sin peso — 1 min']},
     {n:'💪 Tren superior · 3×45s',e:['Flexiones completas','Flexiones cerradas (tríceps)','Superman (espalda)','Plancha frontal']},
     {n:'🦵 Tren inferior · 3×45s',e:['Sentadillas con salto','Estocadas alternadas','Puente de glúteos con pausa','Sentadilla sumo']},
@@ -592,14 +616,50 @@ const RUTINAS={
     {n:'🔥 Cardio · 5 min',e:['Burpees: 30s trabajo / 30s descanso × 5 rondas']},
     {n:'🌬️ Enfriamiento · 5 min',e:['Isquiotibiales 30s c/lado','Apertura de cadera 1 min','Estiramiento de pecho','Respiración abdominal 2 min']},
   ]},
-  y:{t:'Yoga & Movilidad · 30 min',s:'Flujo para flexibilidad y energía · Mar / Jue / Sáb',c:[
+];
+
+const RUTINAS_Y=[
+  // Semana 1-2 yoga suave
+  {t:'Movilidad suave · 20 min',s:'Semana 1-2 · Sin forzar, solo soltar',c:[
+    {n:'🙏 Respiración · 3 min',e:['Sentado o acostado, respiración abdominal profunda','Cerrá los ojos, soltá la tensión del día']},
+    {n:'🧍 Movimiento suave · 10 min',e:['Rotación de cuello — 1 min','Apertura de hombros — 1 min','Gato-vaca en cuatro patas — 2 min','Postura del niño — 2 min','Torsión supina suave — 2 min c/lado']},
+    {n:'🌿 Cierre · 5 min',e:['Estiramiento de isquiotibiales acostado — 1 min c/lado','Abrazo de rodillas — 1 min','Savasana — 3 min']},
+  ]},
+  // Semana 3-4 yoga medio
+  {t:'Yoga & Movilidad · 25 min',s:'Semana 3-4 · Más flujo, más conciencia corporal',c:[
+    {n:'🙏 Calentamiento · 5 min',e:['3 rondas de Surya Namaskar A suave','Respiración consciente en cada movimiento']},
+    {n:'🧍 Secuencia en pie · 10 min',e:['Guerrero I — 5 resp. c/lado','Guerrero II — 5 resp. c/lado','Postura del árbol — 5 resp. c/lado']},
+    {n:'🌿 Suelo · 10 min',e:['Paloma suave — 90s c/lado','Torsión supina — 1 min c/lado','Postura del niño — 2 min','Savasana — 3 min']},
+  ]},
+  // Semana 5+ yoga completo
+  {t:'Yoga & Movilidad · 30 min',s:'Semana 5+ · Flujo completo',c:[
     {n:'🙏 Saludo al sol · 10 min',e:['5 rondas de Surya Namaskar A','Sincronizá con la respiración']},
     {n:'🧍 En pie · 10 min',e:['Guerrero I — 5 resp. c/lado','Guerrero II — 5 resp. c/lado','Triángulo extendido c/lado','Perro boca abajo ↔ arriba (3x)']},
     {n:'🌿 Suelo · 10 min',e:['Paloma 2 min c/lado','Torsión supina 1 min c/lado','Postura del niño 2 min','Savasana 3 min']},
   ]},
-  d:{t:'Descanso activo · Domingo',s:'El cuerpo se construye en el descanso',c:[
-    {n:'🌳 Suave y opcional',e:['Caminata 20–30 min','Estiramientos suaves 10 min','Respirar · relajar · desconectar']}
-  ]}
+];
+
+function getTrainingWeek(){
+  // Contar sesiones completadas en total para determinar semana
+  const sessions=Object.values(S.exDone).filter(Boolean).length;
+  if(sessions<=6) return 0;      // Semana 1 (0-6 sesiones)
+  if(sessions<=12) return 1;     // Semana 2
+  if(sessions<=18) return 2;     // Semana 3
+  return 3;                      // Semana 4+
+}
+
+function getRutina(tipo){
+  const week=getTrainingWeek();
+  if(tipo==='f') return RUTINAS_F[Math.min(week,3)];
+  if(tipo==='y') return RUTINAS_Y[Math.min(Math.floor(week/1.5),2)];
+  return {t:'Descanso activo · Domingo',s:'El cuerpo se construye en el descanso',c:[{n:'🌳 Suave y opcional',e:['Caminata 20–30 min','Estiramientos suaves 10 min','Respirar · relajar · desconectar']}]};
+}
+
+// Alias para compatibilidad
+const RUTINAS={
+  f: RUTINAS_F[0],
+  y: RUTINAS_Y[0],
+  d: {t:'Descanso activo · Domingo',s:'El cuerpo se construye en el descanso',c:[{n:'🌳 Suave y opcional',e:['Caminata 20–30 min','Estiramientos suaves 10 min','Respirar · relajar · desconectar']}]}
 };
 
 const MEALS={
@@ -797,8 +857,12 @@ function renderEval(){setStars(S.evalStars);if(S.evalVerdict)setEval(S.evalVerdi
 
 // ── EJERCICIO ─────────────────────────────────────────────────────────────────
 function initEjercicio(){
-  const dow=today.getDay();const et=EX[dow];const r=RUTINAS[et];
-  document.getElementById('ex-h1').textContent=r.t;document.getElementById('ex-sub').textContent=r.s;
+  const dow=today.getDay();const et=EX[dow];const r=getRutina(et);
+  const week=getTrainingWeek();
+  const weekLabels=['Semana 1 — Reinicio 🌱','Semana 2 — Construyendo 🔨','Semana 3 — Potenciando ⚡','Semana 4+ — Nivel completo 🔥'];
+  const nextIn=et==='f'?Math.max(0,7-Object.values(S.exDone).filter(Boolean).length%7):0;
+  document.getElementById('ex-h1').textContent=r.t;
+  document.getElementById('ex-sub').innerHTML=`<span style="color:var(--muted);font-size:13px">${r.s}</span><br><span class="badge bg" style="margin-top:6px;display:inline-flex">📅 ${weekLabels[Math.min(week,3)]}</span>`;
   let total=0,semana=0,racha=0;Object.values(S.exDone).forEach(v=>{if(v)total++;});
   const mon=getMonday();for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);if(S.exDone[dk(d)])semana++;}
   let cur=new Date(today);for(let i=0;i<90;i++){const k=dk(cur);const t=EX[cur.getDay()];if(t==='d'){cur.setDate(cur.getDate()-1);continue;}if(!S.exDone[k])break;racha++;cur.setDate(cur.getDate()-1);}
@@ -806,9 +870,15 @@ function initEjercicio(){
   const wr=document.getElementById('week-row');wr.innerHTML='';
   for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const et2=EX[d.getDay()];const done=!!S.exDone[dk(d)];const isT=dk(d)===todayK;const col=document.createElement('div');col.className='wd-col';col.innerHTML=`<div class="wd-name">${DN[d.getDay()]}</div><div class="wd-dot${isT?' today':''}${done?' done-d':et2==='f'?' tf':et2==='y'?' ty':''}" onclick="toggleExDay('${dk(d)}')">${done?'✓':et2==='f'?'F':et2==='y'?'Y':'—'}</div>`;wr.appendChild(col);}
   const done=!!S.exDone[todayK];
+  const reglasBadges=r.reglas?`<div style="margin-top:10px;display:flex;flex-direction:column;gap:5px">${r.reglas.map(rule=>`<div style="font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:flex-start"><span style="color:var(--gold);flex-shrink:0">→</span>${rule}</div>`).join('')}</div>`:'';
+  const objetivoBox=r.objetivo?`<div style="background:var(--gold-bg);border:1px solid rgba(228,192,74,.2);border-radius:var(--rs);padding:9px 12px;margin-top:10px;font-size:12px;color:var(--gold)">🎯 ${r.objetivo}</div>`:'';
   document.getElementById('rutina-container').innerHTML=`<div class="slabel">Rutina de hoy</div>
-    <div class="ex-hero"><div class="ex-hero-h">${r.t}</div><div style="font-size:13px;color:var(--muted)">${r.s}</div>
-    <button class="ex-cta ${done?'ex-cta-done':'ex-cta-start'}" onclick="toggleExToday()">${done?'✓ Sesión completada':'Marcar sesión como completada'}</button></div>
+    <div class="ex-hero">
+      <div class="ex-hero-h">${r.t}</div>
+      <div style="font-size:13px;color:var(--muted)">${r.s}</div>
+      ${objetivoBox}${reglasBadges}
+      <button class="ex-cta ${done?'ex-cta-done':'ex-cta-start'}" onclick="toggleExToday()">${done?'✓ Sesión completada — clic para desmarcar':'✅ Marcar sesión como completada'}</button>
+    </div>
     ${r.c.map((c,ci)=>`<div class="circuit"><div class="cir-hdr" onclick="this.nextElementSibling.classList.toggle('on')"><span>${c.n}</span><span style="color:var(--muted);font-size:11px">▾</span></div><div class="cir-body">${c.e.map((ej,ei)=>{const k=`${ci}_${ei}`;const d=!!S.exItems[k];return `<div class="cir-ex${d?' done':''}" id="cex-${k}" onclick="toggleExItem('${k}')"><div class="ex-chk">${d?ck():''}</div><span>${ej}</span></div>`;}).join('')}</div></div>`).join('')}`;
   const hg=document.getElementById('hist-grid');hg.innerHTML='';
   for(let i=27;i>=0;i--){const d=new Date(today);d.setDate(today.getDate()-i);const et2=EX[d.getDay()];const done=!!S.exDone[dk(d)];const dot=document.createElement('div');dot.className='h-dot '+(done?(et2==='y'?'hy':'hf'):et2==='d'?'hd':'he');hg.appendChild(dot);}
